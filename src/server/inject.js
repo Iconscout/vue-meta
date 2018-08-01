@@ -13,6 +13,25 @@ export default function _inject (options = {}) {
     // get meta info with sensible defaults
     const info = getMetaInfo(options)(this.$root)
 
+    // Add og:title & twitter:title
+    if (!info.meta.find(meta => meta.property === 'og:title')) {
+      info.meta.push({ property: 'og:title', content: info.title })
+    }
+    if (!info.meta.find(meta => meta.name === 'twitter:title')) {
+      info.meta.push({ name: 'twitter:title', content: info.title })
+    }
+
+    // Add og:description & twitter:description
+    const description = info.meta.find(meta => meta.name === 'description')
+    if (description) {
+      if (!info.meta.find(meta => meta.property === 'og:description')) {
+        info.meta.push({ property: 'og:description', content: description.content })
+      }
+      if (!info.meta.find(meta => meta.name === 'twitter:description')) {
+        info.meta.push({ name: 'twitter:description', content: description.content })
+      }
+    }
+
     // generate server injectors
     for (let key in info) {
       if (info.hasOwnProperty(key) && key !== 'titleTemplate' && key !== 'titleChunk') {
