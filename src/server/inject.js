@@ -33,7 +33,7 @@ export default function _inject (options = {}) {
     }
 
     // Add og:image & twitter:image
-    const image = info.meta.find(meta => meta.itemprop === 'image')
+    const image = info.meta.find(meta => meta.name === 'image')
     if (image) {
       if (!info.meta.find(meta => meta.property === 'og:image')) {
         info.meta.push({ property: 'og:image', content: image.content })
